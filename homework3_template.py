@@ -23,10 +23,10 @@ def trainPolynomialRegressor (x, y, d):
 # conduct stochastic gradient descent (SGD) to optimize the weight matrix W (785x10).
 # Then return W.
 def softmaxRegression (trainingImages, trainingLabels, testingImages, testingLabels, epsilon, batchSize, alpha):
-    print(f"shape of training images: {np.shape(trainingImages)}")
-    print(f"shape of training labels: {np.shape(trainingLabels)}")
-    print(f"shape of testing images: {np.shape(testingImages)}")
-    print(f"shape of testing labels: {np.shape(testingLabels)}")
+    # print(f"shape of training images: {np.shape(trainingImages)}")
+    # print(f"shape of training labels: {np.shape(trainingLabels)}")
+    # print(f"shape of testing images: {np.shape(testingImages)}")
+    # print(f"shape of testing labels: {np.shape(testingLabels)}")
 
     Xtilde = np.column_stack([trainingImages, np.ones(len(trainingImages))])
     # print(np.shape(Xtilde))
@@ -35,22 +35,20 @@ def softmaxRegression (trainingImages, trainingLabels, testingImages, testingLab
     num_classes = np.unique(trainingLabels).shape[0]
 
     Wtilde = np.random.normal(0, 1e-5, size=(Xtilde.shape[1], num_classes))
-    # print(np.shape(W))
-    # print(W)
-
-    Ztilde = Xtilde @ Wtilde
-    # print(np.shape(Ztilde))
-    # print(Ztilde)
-
-    Yhat = softmax(Ztilde)
-    # print(np.shape(Yhat))
-    # print(Yhat)
+    # print(np.shape(Wtilde))
+    # print(Wtilde)
 
     Y = one_hot(trainingLabels, num_classes)
 
     num_batches = np.shape(Xtilde)[0] // batchSize
-    E = 10
+    E = 100
     for epoch in range(E):
+        print(f"Epoch {epoch+1}/{E}")
+
+        indices = np.random.permutation(len(Xtilde))
+        Xtilde = Xtilde[indices]
+        Y = Y[indices]
+
         for i in range(num_batches):
             start = i * batchSize
             end = start + batchSize
@@ -84,7 +82,7 @@ def grad_ce(W, X, Y, alpha=0.):
 
     if alpha > 0:
         reg_grad = np.zeros_like(W)
-        reg_grad[:-1] = (alpha / n) * W[:-1]  # don't regularize bias
+        reg_grad[:-1] = (alpha / n) * W[:-1]
         grad += reg_grad
 
     return grad
@@ -93,7 +91,7 @@ def one_hot(y, num_classes: int):
     return np.eye(num_classes)[y]
 
 def softmax(Z):
-    Z_shifted = Z - np.max(Z, axis=1, keepdims=True)  # stability
+    Z_shifted = Z - np.max(Z, axis=1, keepdims=True)
     exp_Z = np.exp(Z_shifted)
     return exp_Z / np.sum(exp_Z, axis=1, keepdims=True)
 
@@ -122,13 +120,13 @@ if __name__ == "__main__":
     # ...
 
     # Train the model
-    Wtilde = softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabels, epsilon=0.1, batchSize=100, alpha=.1)[:-1]
+    W = softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabels, epsilon=0.1, batchSize=100, alpha=.1)[:-1]
 
     # print(np.shape(W))
     # print(np.shape(trainingImages))
     # print(np.shape(trainingLabels))
 
-    print(compute_accuracy(trainingImages, trainingLabels, Wtilde))
+    print(compute_accuracy(trainingImages, trainingLabels, W))
 
     # Visualize the vectors
     # ...
