@@ -37,7 +37,13 @@ if __name__ == "__main__":
 
     x = np.array([1, 2, 3])
     y = np.array([1, 4, 9])
-    print(trainPolynomialRegressor(x, y, 3))
+    w = trainPolynomialRegressor(x, y, 3)
+    yhat = 2
+    yhat = 0
+    for i in range(len(w)):
+        yhat += w[i] * a ** i
+
+    print(yhat)
 
     # Change from 0-9 labels to "one-hot" binary vector labels. For instance, 
     # if the label of some example is 3, then its y should be [ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 ]
