@@ -7,7 +7,14 @@ import matplotlib.pyplot as plt
 # Given a vector x of (scalar) inputs and associated vector y of the target labels, and given
 # degree d of the polynomial, train a polynomial regression model and return the optimal weight vector.
 def trainPolynomialRegressor (x, y, d):
-    pass
+    n = np.shape(x)[0]
+    # print(n)
+
+    X = np.zeros((n, d + 1))
+    for i in range(d + 1):
+        X[:, i] = x ** i
+
+    return np.linalg.solve(X.T @ X, X.T @ y)
 
 ########################################################################################################################
 # PROBLEM 2
@@ -27,6 +34,10 @@ if __name__ == "__main__":
 
     # Append a constant 1 term to each example to correspond to the bias terms
     # ...
+
+    x = np.array([1, 2, 3])
+    y = np.array([1, 4, 9])
+    print(trainPolynomialRegressor(x, y, 3))
 
     # Change from 0-9 labels to "one-hot" binary vector labels. For instance, 
     # if the label of some example is 3, then its y should be [ 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 ]
