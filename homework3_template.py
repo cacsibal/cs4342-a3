@@ -43,7 +43,7 @@ def softmaxRegression (trainingImages, trainingLabels, epsilon, batchSize, alpha
     num_batches = np.shape(Xtilde)[0] // batchSize
     E = 100
     for epoch in range(E):
-        print(f"Epoch {epoch+1}/{E}")
+        # print(f"Epoch {epoch+1}/{E}")
 
         indices = np.random.permutation(len(Xtilde))
         Xtilde = Xtilde[indices]
@@ -120,13 +120,14 @@ if __name__ == "__main__":
     # ...
 
     # Train the model
-    W = softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabels, epsilon=0.1, batchSize=100, alpha=.1)[:-1]
+    W = softmaxRegression(trainingImages, trainingLabels, epsilon=0.1, batchSize=100, alpha=.1)[:-1]
 
     # print(np.shape(W))
     # print(np.shape(trainingImages))
     # print(np.shape(trainingLabels))
 
-    print(compute_accuracy(trainingImages, trainingLabels, W))
+    print(f"accuracy on training data: {compute_accuracy(trainingImages, trainingLabels, W)}")
+    print(f"accuracy on testing data: {compute_accuracy(testingImages, testingLabels, W)}")
 
     # Visualize the vectors
     # ...

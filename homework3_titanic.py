@@ -97,8 +97,8 @@ if __name__ == "__main__":
     train_idx = indices[:n_train]
     val_idx = indices[n_train:]
 
-    X_tr = X_train
-    y_tr = y_train
+    X_tr = X_train[train_idx]
+    y_tr = y_train[train_idx]
     X_val = X_train[val_idx]
     y_val = y_train
 
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     print("EVALUATION ON TRAINING DATA")
     print("="*80)
     train_acc = compute_accuracy(X_train, y_train, W)
-    print(f"Full Training Set Accuracy: {train_acc:.2f}%")
+    print(f"Full Training Set Accuracy: {100 * train_acc:.2f}%")
 
     # Load test data
     print("\n" + "="*80)
