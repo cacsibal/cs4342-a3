@@ -41,7 +41,7 @@ def softmaxRegression (trainingImages, trainingLabels, epsilon, batchSize, alpha
     Y = one_hot(trainingLabels, num_classes)
 
     num_batches = np.shape(Xtilde)[0] // batchSize
-    E = 100
+    E = 50
     for epoch in range(E):
         # print(f"Epoch {epoch+1}/{E}")
 
