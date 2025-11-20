@@ -22,7 +22,7 @@ def trainPolynomialRegressor (x, y, d):
 # Given training and testing data, learning rate epsilon, batch size, and regularization strength alpha,
 # conduct stochastic gradient descent (SGD) to optimize the weight matrix W (785x10).
 # Then return W.
-def softmaxRegression (trainingImages, trainingLabels, testingImages, testingLabels, epsilon, batchSize, alpha):
+def softmaxRegression (trainingImages, trainingLabels, epsilon, batchSize, alpha):
     # print(f"shape of training images: {np.shape(trainingImages)}")
     # print(f"shape of training labels: {np.shape(trainingLabels)}")
     # print(f"shape of testing images: {np.shape(testingImages)}")

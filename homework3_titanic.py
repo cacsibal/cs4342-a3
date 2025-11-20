@@ -110,7 +110,7 @@ if __name__ == "__main__":
     print(f"  Validation: {len(X_val)} samples")
 
     W = softmaxRegression(
-        X_tr, y_tr, X_val, y_val,
+        X_tr, y_tr,
         epsilon=0.01,
         batchSize=32,
         alpha=1.0
