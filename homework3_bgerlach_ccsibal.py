@@ -60,31 +60,24 @@ def softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabe
             X_batch = Xtilde_shuffled[start:end]
             Y_batch = Y_shuffled[start:end]
 
-            # Forward pass
             Z = X_batch @ Wtilde
             Yhat = softmax(Z)
 
-            # Compute and track loss
             ce_loss = f_ce(Y_batch, Yhat)
-            l2_reg = (alpha / (2 * len(X_batch))) * np.sum(Wtilde[:-1] ** 2)  # Exclude bias
+            l2_reg = (alpha / (2 * len(X_batch))) * np.sum(Wtilde[:-1] ** 2)
             total_loss = ce_loss + l2_reg
             loss_history.append(total_loss)
             epoch_losses.append(total_loss)
 
-            # Compute gradient
             grad = grad_ce(Wtilde, X_batch, Y_batch, alpha)
-
-            # Update weights
             Wtilde -= epsilon * grad
 
-        # Print progress every 10 epochs
         if (epoch + 1) % 10 == 0 or epoch == 0:
             train_acc = compute_accuracy(Xtilde, trainingLabels, Wtilde)
             test_acc = compute_accuracy(Xtilde_test, testingLabels, Wtilde)
             avg_loss = np.mean(epoch_losses)
             print(f"Epoch {epoch + 1}/{E}: Loss={avg_loss:.4f}, Train Acc={train_acc:.2f}%, Test Acc={test_acc:.2f}%")
 
-    # Plot last 20 mini-batches loss
     print("\nPlotting training loss for last 20 mini-batches...")
     plt.figure(figsize=(10, 6))
     last_20_losses = loss_history[-20:]
@@ -97,7 +90,6 @@ def softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabe
     plt.savefig('training_loss_last_20.png', dpi=150, bbox_inches='tight')
     print("Saved: training_loss_last_20.png")
 
-    # Plot full loss history
     plt.figure(figsize=(12, 6))
     plt.plot(loss_history, 'b-', alpha=0.7, linewidth=1)
     plt.xlabel('Iteration')
@@ -108,7 +100,6 @@ def softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabe
     plt.savefig('training_loss_full.png', dpi=150, bbox_inches='tight')
     print("Saved: training_loss_full.png")
 
-    # Compute test accuracy
     final_test_acc = compute_accuracy(Xtilde_test, testingLabels, Wtilde)
     print(f"PC ACCURACY: {final_test_acc:.2f}%")
 
@@ -158,24 +149,19 @@ def softmax(Z):
 def visualize_weights(W):
     print("Weight visualizations...")
 
-    # Extract weights excluding bias term
     weights = W[:-1, :]
 
-    # Class names for Fashion MNIST
     class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
-    # Create 2x5 grid of subplots
     fig, axes = plt.subplots(2, 5, figsize=(15, 6))
 
     for i in range(10):
         row = i // 5
         col = i % 5
 
-        # Reshape weight vector to 28x28 image
         w_image = weights[:, i].reshape(28, 28)
 
-        # Plot
         ax = axes[row, col]
         im = ax.imshow(w_image, cmap='RdBu',
                        vmin=-np.max(np.abs(weights)),
@@ -183,7 +169,6 @@ def visualize_weights(W):
         ax.set_title(f'Class {i}: {class_names[i]}', fontsize=10)
         ax.axis('off')
 
-    # Add colorbar
     plt.colorbar(im, ax=axes.ravel().tolist(), shrink=0.6)
     plt.tight_layout()
     plt.savefig('weight_visualizations.png', dpi=150, bbox_inches='tight')
@@ -199,7 +184,6 @@ if __name__ == "__main__":
     print(f"Polynomial test: f(2) = {yhat:.2f} (expected ~4.0)")
     print()
 
-    # Load data
     trainingImages = np.load("fashion_mnist_train_images.npy")
     trainingLabels = np.load("fashion_mnist_train_labels.npy")
     testingImages = np.load("fashion_mnist_test_images.npy")
@@ -217,7 +201,6 @@ if __name__ == "__main__":
     print(f"After reshaping - Testing: {testingImages.shape}")
     print()
 
-    # Train the model
     W = softmaxRegression(trainingImages, trainingLabels, testingImages, testingLabels, epsilon=0.1, batchSize=100,
                           alpha=0.01)
 
