@@ -120,7 +120,7 @@ if __name__ == "__main__":
     # ...
 
     # Train the model
-    W = softmaxRegression(trainingImages, trainingLabels, epsilon=0.1, batchSize=100, alpha=.1)[:-1]
+    W = softmaxRegression(trainingImages, trainingLabels, epsilon=0.1, batchSize=100, alpha=.01)[:-1]
 
     # print(np.shape(W))
     # print(np.shape(trainingImages))
