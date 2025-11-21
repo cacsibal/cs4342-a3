@@ -9,8 +9,8 @@ if __name__ == "__main__":
     sex = d.Sex.map({"male":0, "female":1}).to_numpy()
     Pclass = d.Pclass.to_numpy()
 
-    # Import from homework3_template.py
-    from homework3_template import softmaxRegression, compute_accuracy, one_hot
+    # Import from homework3_bgerlach_ccsibal.py
+    from homework3_bgerlach_ccsibal import softmaxRegression, compute_accuracy, one_hot
 
 def prepare_features(data, sibsp_categories=None, pclass_categories=None, fit=False):
     """
